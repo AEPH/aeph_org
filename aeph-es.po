@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: aeph_org\n"
+"POT-Creation-Date: 2014-09-04 11:02+0100\n"
+"PO-Revision-Date: 2014-09-04 11:05+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.9\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: _e\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: aeph_org.php:11
+msgid "User is not valid"
+msgstr "El usuario no es válido"
+
+#: aeph_org.php:41
+msgid "Rol is not valid"
+msgstr "El rol no es válido"
+
+#: mostrarCamposExtra.php:11
+msgid "Adictional Fields"
+msgstr "Campos Adicionales"
+
+#: mostrarCamposExtra.php:15
+msgid "Address"
+msgstr "Dirección"
+
+#: mostrarCamposExtra.php:20
+msgid "Insert your address"
+msgstr "Inserta tu Dirección"
+
+#: mostrarCamposExtra.php:24
+msgid "City"
+msgstr "Ciudad"
+
+#: mostrarCamposExtra.php:29
+msgid "Insert your city"
+msgstr "Inserta tu Ciudad"
+
+#: mostrarCamposExtra.php:33
+msgid "Postal Code"
+msgstr "Codigo Postal"
+
+#: mostrarCamposExtra.php:38
+msgid "Insert your postal code"
+msgstr "Inserta tu Codigo Postal"
+
+#: mostrarCamposExtra.php:42
+msgid "Country"
+msgstr "País"
+
+#: mostrarCamposExtra.php:47
+msgid "Insert your country"
+msgstr "Inserta tu País"
+
+#: mostrarCamposExtra.php:51
+msgid "Nationality"
+msgstr "Nacionalidad"
+
+#: mostrarCamposExtra.php:56
+msgid "Insert your nationality"
+msgstr "Inserta tu Nacionalidad"
+
+#: mostrarCamposExtra.php:60
+msgid "Telephone"
+msgstr "Teléfono"
+
+#: mostrarCamposExtra.php:65
+msgid "Insert your telephone"
+msgstr "Inserta tu teléfono"
+
+#: mostrarCamposExtra.php:69
+msgid "Company"
+msgstr "Empresa"
+
+#: mostrarCamposExtra.php:74
+msgid "Insert your company name"
+msgstr "Inserta el nombre de tu Empresa"
+
+#: mostrarCamposExtra.php:78
+msgid "Job"
+msgstr "Puesto de Trabajo"
+
+#: mostrarCamposExtra.php:83
+msgid "Insert your job in the company"
+msgstr "Inserta tu puesto de trabajo en la empresa"
