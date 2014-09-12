@@ -8,79 +8,79 @@ add_action( 'edit_user_profile', 'extended_user_profil_fields' );
  
 function extended_user_profil_fields( $user ) { ?>
 
-<h3><?php _e("Adictional Fields", "blank"); ?></h3>
+<h3><?php _e("Extra Fields", "aeph-es"); ?></h3>
  
 <table class="form-table">
    <tr>
-      <th><label for="address"><?php _e("Address"); ?></label></th>
+      <th><label for="address"><?php _e("Address", "aeph-es"); ?></label></th>
       <td>
          <input    type="text" name="address" id="address" 
                value="<?php echo esc_attr( get_the_author_meta( 'address', $user->ID ) ); ?>" 
                class="regular-text" /><br />
-         <span class="description"><?php _e("Insert your address"); ?></span>
+         <span class="description"><?php _e("Insert your address", "aeph-es"); ?></span>
       </td>
    </tr>
    <tr>
-      <th><label for="city"><?php _e("City"); ?></label></th>
+      <th><label for="city"><?php _e("City", "aeph-es"); ?></label></th>
       <td>
          <input type="text" name="city" id="city" 
                value="<?php echo esc_attr( get_the_author_meta( 'city', $user->ID ) ); ?>" 
                class="regular-text" /><br />
-         <span class="description"><?php _e("Insert your city"); ?></span>
+         <span class="description"><?php _e("Insert your city", "aeph-es"); ?></span>
       </td>
    </tr>
    <tr>
-      <th><label for="postal_code"><?php _e("Postal Code"); ?></label></th>
+      <th><label for="postal_code"><?php _e("Postal Code", "aeph-es"); ?></label></th>
       <td>
          <input type="text" name="postal_code" id="postal_code" 
                value="<?php echo esc_attr( get_the_author_meta( 'postal_code', $user->ID ) ); ?>" 
                class="regular-text" /><br />
-         <span class="description"><?php _e("Insert your postal code"); ?></span>
+         <span class="description"><?php _e("Insert your postal code", "aeph-es"); ?></span>
       </td>
    </tr>
    <tr>
-      <th><label for="country"><?php _e("Country"); ?></label></th>
+      <th><label for="country"><?php _e("Country", "aeph-es"); ?></label></th>
       <td>
          <input type="text" name="country" id="country" 
                value="<?php echo esc_attr( get_the_author_meta( 'country', $user->ID ) ); ?>" 
                class="regular-text" /><br />
-         <span class="description"><?php _e("Insert your country"); ?></span>
+         <span class="description"><?php _e("Insert your country", "aeph-es"); ?></span>
       </td>
    </tr>
    <tr>
-     <th><label for="nationality"><?php _e("Nationality"); ?></label></th>
+     <th><label for="nationality"><?php _e("Nationality", "aeph-es"); ?></label></th>
       <td>
          <input type="text" name="nationality" id="nationality" 
                value="<?php echo esc_attr( get_the_author_meta( 'nationality', $user->ID ) ); ?>" 
                class="regular-text" /><br />
-         <span class="description"><?php _e("Insert your nationality"); ?></span>
+         <span class="description"><?php _e("Insert your nationality", "aeph-es"); ?></span>
       </td>
    </tr>
     <tr>
-     <th><label for="telephone"><?php _e("Telephone"); ?></label></th>
+     <th><label for="telephone"><?php _e("Telephone", "aeph-es"); ?></label></th>
       <td>
          <input type="text" name="telephone" id="telephone" 
                value="<?php echo esc_attr( get_the_author_meta( 'telephone', $user->ID ) ); ?>" 
                class="regular-text" /><br />
-         <span class="description"><?php _e("Insert your telephone"); ?></span>
+         <span class="description"><?php _e("Insert your telephone", "aeph-es"); ?></span>
       </td>
    </tr>
     <tr>
-     <th><label for="company"><?php _e("Company"); ?></label></th>
+     <th><label for="company"><?php _e("Company", "aeph-es"); ?></label></th>
       <td>
          <input type="text" name="company" id="company" 
                value="<?php echo esc_attr( get_the_author_meta( 'company', $user->ID ) ); ?>" 
                class="regular-text" /><br />
-         <span class="description"><?php _e("Insert your company name"); ?></span>
+         <span class="description"><?php _e("Insert your company name", "aeph-es"); ?></span>
       </td>
    </tr>
     <tr>
-     <th><label for="job"><?php _e("Job"); ?></label></th>
+     <th><label for="job"><?php _e("Job", "aeph-es"); ?></label></th>
       <td>
          <input type="text" name="job" id="job" 
                value="<?php echo esc_attr( get_the_author_meta( 'job', $user->ID ) ); ?>" 
                class="regular-text" /><br />
-         <span class="description"><?php _e("Insert your job in the company"); ?></span>
+         <span class="description"><?php _e("Insert your job in the company", "aeph-es"); ?></span>
       </td>
    </tr>
 </table>

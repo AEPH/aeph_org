@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: aeph_org\n"
-"POT-Creation-Date: 2014-09-04 11:02+0100\n"
-"PO-Revision-Date: 2014-09-04 11:05+0100\n"
+"POT-Creation-Date: 2014-09-12 13:09+0100\n"
+"PO-Revision-Date: 2014-09-12 13:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -16,16 +16,17 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: aeph_org.php:11
+#: aeph_org.php:23
 msgid "User is not valid"
 msgstr "El usuario no es válido"
 
-#: aeph_org.php:41
+#: aeph_org.php:55
 msgid "Rol is not valid"
 msgstr "El rol no es válido"
 
 #: mostrarCamposExtra.php:11
-msgid "Adictional Fields"
+#, fuzzy
+msgid "Extra Fields"
 msgstr "Campos Adicionales"
 
 #: mostrarCamposExtra.php:15
