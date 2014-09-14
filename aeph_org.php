@@ -39,9 +39,9 @@ if ( !class_exists('AephPlugin') ) :
 			$user = get_userdata($userID );
 			
 			//Compruebo si existe
-			if(!isset($user)){
+			if($user){
 
-				echo _e("User is not valid");
+				echo _e("User is not valid", "aeph-es");
 				return NULL;
 			}
 			else {return $user;}
@@ -71,9 +71,9 @@ if ( !class_exists('AephPlugin') ) :
 				//Obtengo el rol
 				$role = get_role( $rol );
 				
-				if(!isset($role)){
+				if($role){
 				
-					echo _e("Rol is not valid");
+					echo _e("Rol is not valid", "aeph-es");
 					return false;
 				}
 				else{
