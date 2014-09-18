@@ -1,23 +1,21 @@
-﻿<?php
+<?php
 /*
 Plugin Name: AEPH Plugin
 Plugin URI: 
 Description: Este plugin tiene distintas funcionalidades para el sitio de la asociacion en wordpress
-Version: 0.2
+Version: 0.4
 Author: Rodrigo Serrano Gonzalez
 Colaborador 1: Daniel Ramos
 Colaborador 2:
 Author URI: rodrigoserrano.es
 License: GPL2
 */
-
-
-
-if ( !class_exists('AephPlugin') ) :
+if ( !class_exists('AephPlugin') ){
 
 	class AephPlugin
 	{
 		var $plugin_url;
+		var $db_option = 'Aeph_Options';
 		
 		//Constructor
 		function AephPlugin(){
@@ -25,12 +23,80 @@ if ( !class_exists('AephPlugin') ) :
 			
 			// add shortcode handler
 			add_shortcode('mostrarCaducidad', array(&$this, 'aeph_mostrarCaducidad'));
+			
+			// add options Page
+			add_action('admin_menu', array(&$this, 'admin_menu'));
 
 		}
 		
 		function install(){
 		
+			// set default options
+			$this->get_options();
 		}
+		
+		// hook the options page
+		function admin_menu(){
+			add_options_page('AEPH Options', 'AEPH Plugin',1, basename(__FILE__), array(&$this, 'handle_options'));
+		}
+		
+		// handle plugin options
+		function get_options()
+		{
+			// default values
+			$options = array
+			(
+				'emailLog' => 'r.serrano@profesionalesholanda.org',
+				'mensaje30' => '',
+				'mensaje15' => '',
+				'mensaje7' => '',
+				'mensaje0' => ''
+			);
+			
+			// get saved options
+			$saved = get_option($this->db_option);
+			
+			// assign them
+			if (!empty($saved)){
+				foreach ($saved as $key => $option)
+				$options[$key] = $option;
+			}
+			
+			// update the options if necessary
+			if ($saved != $options)update_option($this->db_option, $options);
+			
+			//return the options
+			return $options;
+		}
+		
+		// handle the options page
+		function handle_options()
+		{
+			$options = $this->get_options();
+			if ( isset($_POST['submitted'])){
+				//check security
+				check_admin_referer('aeph-nonce');
+				$options = array();
+				$options['mensaje30']=htmlspecialchars($_POST['mensaje30']);
+				$options['mensaje15']=htmlspecialchars($_POST['mensaje15']);
+				$options['mensaje7']=htmlspecialchars($_POST['mensaje7']);
+				$options['mensaje0']=htmlspecialchars($_POST['mensaje0']);
+				$options['emailLog']=$_POST['email'];
+				update_option($this->db_option, $options);
+				echo '<div class="updated fade"><p>Plugin settings saved.</p></div>';
+			}
+
+			$mensaje30 = $options['mensaje30'];
+			$mensaje15 = $options['mensaje15'];
+			$mensaje7 = $options['mensaje7'];
+			$mensaje0 = $options['mensaje0'];
+			$email = $options['emailLog'];
+			
+			// URL for form submit, equals our current page
+			$action_url = $_SERVER['REQUEST_URI'];
+			include('aeph_options_page.php');
+		}
+
 		
 		//Obtiene un usuario del sistema
 		function get_member($userID){
@@ -85,12 +151,22 @@ if ( !class_exists('AephPlugin') ) :
 		}
 
 		//Envia un correo electronico recordando que tiene que actualizar su membresía a un usuario dado
-		function aeph_send_membership_reminder($userID){
+		function aeph_send_membership_reminder($userID,$opcion){
 
+			$configuracion=get_options();
+			
 			if($user=get_member($userID)){
 				
-				mail ( $user->user_email , "Aviso Membresía AEPH", file_get_contents(http://embajadas.eu/recordatorio_membresia/) );
-				
+				switch($opcion){
+					case 0: mail ( $user->user_email , "Aviso Membresia AEPH", $configuracion['mensaje30']);
+					break;
+					case 1: mail ( $user->user_email , "Aviso Membresia AEPH", $configuracion['mensaje15']);
+					break;
+					case 2: mail ( $user->user_email , "Aviso Membresia AEPH", $configuracion['mensaje7']);
+					break;
+					case 3: mail ( $user->user_email , "Aviso Membresia AEPH", $configuracion['mensaje0']);
+					break;					
+				}
 				return true;
 			}
 			return false;
@@ -135,8 +211,13 @@ if ( !class_exists('AephPlugin') ) :
 		}
 
 	}
-
-else :
+}
+else{
 	exit ("Class AephPlugin already declared!");
-endif;
+}
+
+$aephplugin = new AephPlugin();
+if (isset($aephplugin)){
+	register_activation_hook( __FILE__, array(&$aephplugin,'install') );
+}
 ?>
