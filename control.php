@@ -15,7 +15,11 @@ function aeph_controlPeriodico(){
 		$ahora=time();
 		if($ahora>$uno->exp_date){
 			$handler->aeph_set_member_role($uno->ID,'Suscriber');
-			$handler->aeph_send_membership_reminder($uno->ID,3);
+			if($handler->aeph_send_membership_reminder($uno->ID,3)){
+				$handler->aeph_set_log("Membresia", "Membership ended", "OK");
+			}
+			else{$handler->aeph_set_log("Membresia", "Membership ended", "FAIL");}
+			$handler->aeph_set_user_history_log($uno->ID, $uno->user_login, time(), "false");
 		}
 
 		else{
@@ -23,13 +27,22 @@ function aeph_controlPeriodico(){
 			$diferencia=$ahora-$uno->exp_date;
 			$diferencia=$diferencia/86400;
 			if($diferencia==30){
-				$handler->aeph_send_membership_reminder($uno->ID,0);
+				if($handler->aeph_send_membership_reminder($uno->ID,0)){
+					$handler->aeph_set_log("Membresia", "Reminder 30 days", "OK");
+				}
+				else{$handler->aeph_set_log("Membresia", "Reminder 30 days", "FAIL");}
 			}
 			if($diferencia==15){
-				$handler->aeph_send_membership_reminder($uno->ID,1);
+				if($handler->aeph_send_membership_reminder($uno->ID,1)){
+					$handler->aeph_set_log("Membresia", "Reminder 15 days", "OK");
+				}
+				else{$handler->aeph_set_log("Membresia", "Reminder 15 days", "FAIL");}
 			}
 			if($diferencia==7){
-				$handler->aeph_send_membership_reminder($uno->ID,2);
+				if($handler->aeph_send_membership_reminder($uno->ID,2)){
+					$handler->aeph_set_log("Membresia", "Reminder 7 days", "OK");
+				}
+				else{$handler->aeph_set_log("Membresia", "Reminder 7 days", "FAIL");}
 			}
 
 		}

@@ -2,7 +2,8 @@
 /*
 Plugin Name: AEPH Plugin
 Plugin URI: 
-Description: Este plugin tiene distintas funcionalidades para el sitio de la asociacion en wordpress
+Description: Este plugin contiene las funciones necesarias para la comprobacion periodica de la membresia de usuarios,
+asi como un shortcode para indicarle al usuario el tiempo restante de membresía.
 Version: 0.4
 Author: Rodrigo Serrano Gonzalez
 Colaborador 1: Daniel Ramos
@@ -16,6 +17,7 @@ if ( !class_exists('AephPlugin') ){
 	{
 		var $plugin_url;
 		var $db_option = 'Aeph_Options';
+		const $EMAILporDEFECTO='r.serrano@profesionalesholanda.org';
 		
 		//Constructor
 		function AephPlugin(){
@@ -26,6 +28,9 @@ if ( !class_exists('AephPlugin') ){
 			
 			// add options Page
 			add_action('admin_menu', array(&$this, 'admin_menu'));
+			
+			//Añadir la accion cuando se pague correctamente la renovacion, realizar la funcion aeph_renovarMembresia()
+			//add_action('admin_menu', array(&$this, 'admin_menu'));
 
 		}
 		
@@ -46,7 +51,7 @@ if ( !class_exists('AephPlugin') ){
 			// default values
 			$options = array
 			(
-				'emailLog' => 'r.serrano@profesionalesholanda.org',
+				'emailLog' => $EMAILporDEFECTO,
 				'mensaje30' => '',
 				'mensaje15' => '',
 				'mensaje7' => '',
@@ -77,11 +82,11 @@ if ( !class_exists('AephPlugin') ){
 				//check security
 				check_admin_referer('aeph-nonce');
 				$options = array();
-				$options['mensaje30']=htmlspecialchars($_POST['mensaje30']);
-				$options['mensaje15']=htmlspecialchars($_POST['mensaje15']);
-				$options['mensaje7']=htmlspecialchars($_POST['mensaje7']);
-				$options['mensaje0']=htmlspecialchars($_POST['mensaje0']);
-				$options['emailLog']=$_POST['email'];
+				$options['mensaje30']=filter_var($_POST['mensaje30'],FILTER_SANITIZE_STRING);
+				$options['mensaje15']=filter_var($_POST['mensaje15'],FILTER_SANITIZE_STRING);
+				$options['mensaje7']=filter_var($_POST['mensaje7'],FILTER_SANITIZE_STRING);
+				$options['mensaje0']=filter_var($_POST['mensaje0'],FILTER_SANITIZE_STRING);
+				$options['emailLog']=filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
 				update_option($this->db_option, $options);
 				echo '<div class="updated fade"><p>Plugin settings saved.</p></div>';
 			}
@@ -174,9 +179,56 @@ if ( !class_exists('AephPlugin') ){
 
 		function aeph_set_log($subject, $event, $status){
 
+			global $wpdb;
+			
+			if(!isset($wpdb)){
+				require_once('../../../wp-config.php');
+				require_once('../../../wp-load.php');
+				require_once('../../../wp-includes/wp-db.php');
+			}
+
+			$wpdb->insert( 
+					'aeph_log', 
+					array( 
+						'subject' => $subject, 
+						'event' => $event,
+						'status' => $status 
+					)
+				);
 
 
+		}
+		
+		//Esta funcion se encarga de guardar el historial de bajas y altas de miembros
+		function aeph_set_user_history_log($id, $login, $fecha, $activo){
 
+			global $wpdb;
+			
+			if(!isset($wpdb)){
+				require_once('../../../wp-config.php');
+				require_once('../../../wp-load.php');
+				require_once('../../../wp-includes/wp-db.php');
+			}
+
+			$wpdb->insert( 
+					'aeph_fechas_expiracion', 
+					array( 
+						'id_usuario' => $id, 
+						'user_login' => $login,
+						'fecha_exp' => $fecha,
+						'activo' => $activo
+					)
+				);
+
+
+		}
+		
+		function aeph_renovarMembresia(){
+			global $current_user;
+			get_currentuserinfo();
+			
+			aeph_set_member_role($current_user->id,'Miembro');
+			update_user_meta( $current_user->id, "exp_date", time());
 		}
 
 		//Mostrará la fecha de caducidad de la membresía del usuario logeado en el sistema en su area privada
