@@ -32,6 +32,25 @@
 
 					<div class="submit"><input type="submit" name="Submit" value="Update" /></div>
 				</form>
+				
+				<table class="widefat fixed" cellspacing="0">
+				<tr>
+					<th>ID</th>
+					<th>Asunto</th>
+					<th>Evento</th>
+					<th>Estado</th>
+					<th>Fecha</th>
+				</tr>
+				<?php
+					global $wpdb;
+					$todos=$wpdb->get_results('select * from aeph_log order by fecha desc limit 30');
+					
+					foreach ( $todos as $uno ){
+
+						echo "<tr><td>".$uno->id."</td><td>".$uno->subject."</td><td>".$uno->event."</td><td>".$uno->status."</td><td>".$uno->fecha."</td></tr>";
+					}
+				?>
+				</table>
 			</div>
 		</div>
 	</div>

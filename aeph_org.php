@@ -17,7 +17,7 @@ if ( !class_exists('AephPlugin') ){
 	{
 		var $plugin_url;
 		var $db_option = 'Aeph_Options';
-		const $EMAILporDEFECTO='r.serrano@profesionalesholanda.org';
+		const EMAILPORDEFECTO='r.serrano@profesionalesholanda.org';
 		
 		//Constructor
 		function AephPlugin(){
@@ -51,7 +51,7 @@ if ( !class_exists('AephPlugin') ){
 			// default values
 			$options = array
 			(
-				'emailLog' => $EMAILporDEFECTO,
+				'emailLog' => EMAILPORDEFECTO,
 				'mensaje30' => '',
 				'mensaje15' => '',
 				'mensaje7' => '',
@@ -111,18 +111,17 @@ if ( !class_exists('AephPlugin') ){
 			
 			//Compruebo si existe
 			if($user){
-
-				echo _e("User is not valid", "aeph-es");
-				return NULL;
+				return $user;				
 			}
-			else {return $user;}
+			else {echo _e("User is not valid", "aeph-es");
+				return NULL;}
 
 		}
 
 		//Averigua si un usuario es miembro o no
 		function aeph_is_active_member($userID){
 
-			if($user=get_member($userID)){
+			if($user=$this->get_member($userID)){
 			
 				//Compruebo cada uno de los roles
 				foreach($rol as $user->roles){
@@ -137,19 +136,19 @@ if ( !class_exists('AephPlugin') ){
 		//Establece el rol a un usuario
 		function aeph_set_member_role($userID, $rol){
 			
-			if($user=get_member($userID)){
+			if($user=$this->get_member($userID)){
 			
 				//Obtengo el rol
 				$role = get_role( $rol );
 				
 				if($role){
-				
-					echo _e("Rol is not valid", "aeph-es");
-					return false;
-				}
-				else{
 					$user->set_role($role);
 					return true;
+					
+				}
+				else{
+					echo _e("Rol is not valid", "aeph-es");
+					return false;
 				}
 			}
 			return false;
@@ -158,9 +157,9 @@ if ( !class_exists('AephPlugin') ){
 		//Envia un correo electronico recordando que tiene que actualizar su membresía a un usuario dado
 		function aeph_send_membership_reminder($userID,$opcion){
 
-			$configuracion=get_options();
+			$configuracion=$this->get_options();
 			
-			if($user=get_member($userID)){
+			if($user=$this->get_member($userID)){
 				
 				switch($opcion){
 					case 0: mail ( $user->user_email , "Aviso Membresia AEPH", $configuracion['mensaje30']);
@@ -180,12 +179,6 @@ if ( !class_exists('AephPlugin') ){
 		function aeph_set_log($subject, $event, $status){
 
 			global $wpdb;
-			
-			if(!isset($wpdb)){
-				require_once('../../../wp-config.php');
-				require_once('../../../wp-load.php');
-				require_once('../../../wp-includes/wp-db.php');
-			}
 
 			$wpdb->insert( 
 					'aeph_log', 
@@ -203,12 +196,6 @@ if ( !class_exists('AephPlugin') ){
 		function aeph_set_user_history_log($id, $login, $fecha, $activo){
 
 			global $wpdb;
-			
-			if(!isset($wpdb)){
-				require_once('../../../wp-config.php');
-				require_once('../../../wp-load.php');
-				require_once('../../../wp-includes/wp-db.php');
-			}
 
 			$wpdb->insert( 
 					'aeph_fechas_expiracion', 
