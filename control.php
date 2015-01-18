@@ -14,12 +14,12 @@ function aeph_controlPeriodico(){
 
 		$ahora=time();
 		if($ahora>$uno->exp_date){
-			$handler->aeph_set_member_role($uno->ID,'subscriber');
+			$handler->aeph_set_member_role($uno->ID,'Suscriber');
 			if($handler->aeph_send_membership_reminder($uno->ID,3)){
 				$handler->aeph_set_log("Membresia", "Membership ended", "OK");
 			}
 			else{$handler->aeph_set_log("Membresia", "Membership ended", "FAIL");}
-			$handler->aeph_set_user_history_log($uno->ID, $uno->user_login, time(), "NO");
+			$handler->aeph_set_user_history_log($uno->ID, $uno->user_login, time(), "false");
 		}
 
 		else{

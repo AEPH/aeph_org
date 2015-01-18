@@ -32,6 +32,7 @@
 
 					<div class="submit"><input type="submit" name="Submit" value="Update" /></div>
 				</form>
+<<<<<<< HEAD
 				
 				<form action="" method="post">
 				<input type="hidden" name="renovar" value="1" />
@@ -59,6 +60,8 @@
 					}
 				?>
 				</table>
+=======
+>>>>>>> parent of 383b6e6... Version 0.7
 			</div>
 		</div>
 	</div>
