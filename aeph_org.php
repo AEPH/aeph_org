@@ -82,11 +82,8 @@ if ( !class_exists('AephPlugin') ){
 			// default values
 			$options = array
 			(
-<<<<<<< HEAD
+
 				'emailLog' => $EMAILPORDEFECTO,
-=======
-				'emailLog' => $EMAILporDEFECTO,
->>>>>>> parent of 383b6e6... Version 0.7
 				'mensaje30' => '',
 				'mensaje15' => '',
 				'mensaje7' => '',
