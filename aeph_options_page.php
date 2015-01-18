@@ -33,6 +33,14 @@
 					<div class="submit"><input type="submit" name="Submit" value="Update" /></div>
 				</form>
 				
+				<form action="" method="post">
+				<input type="hidden" name="renovar" value="1" />
+				<?php wp_nonce_field('aeph-nonce'); ?>
+				Renovar Membresia de un usuario<br>
+				<input type="text" width=4 name="IdUsuario"><input type="submit" value="Renovar">
+				<label for="IdUsuario">ID del Usuario</label>
+				</form>
+				<br><br>
 				<table class="widefat fixed" cellspacing="0">
 				<tr>
 					<th>ID</th>

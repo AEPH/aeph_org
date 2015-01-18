@@ -11,6 +11,7 @@ Colaborador 2:
 Author URI: rodrigoserrano.es
 License: GPL2
 */
+
 if ( !class_exists('AephPlugin') ){
 
 	class AephPlugin
@@ -25,6 +26,7 @@ if ( !class_exists('AephPlugin') ){
 			
 			// add shortcode handler
 			add_shortcode('mostrarCaducidad', array(&$this, 'aeph_mostrarCaducidad'));
+			add_shortcode('mostrarPerfil',array(&$this,'doMostrarPerfil'));
 			
 			// add options Page
 			add_action('admin_menu', array(&$this, 'admin_menu'));
@@ -40,10 +42,39 @@ if ( !class_exists('AephPlugin') ){
 			$this->get_options();
 		}
 		
+		function doMostrarPerfil(){
+		
+			do_action('edit_user_profile');
+		}
+		
 		// hook the options page
 		function admin_menu(){
 			add_options_page('AEPH Options', 'AEPH Plugin',1, basename(__FILE__), array(&$this, 'handle_options'));
 		}
+		
+		//Renueva la membresia del usuario actual
+		function aeph_renovarMembresia(){
+			global $current_user;
+			get_currentuserinfo();
+			
+			$expiracion=get_the_author_meta( 'exp_date', $current_user->ID );
+			$nuevaExpiracion = strtotime('+1 years', $expiracion);
+			
+			aeph_set_member_role($current_user->id,'Miembro');			
+			update_user_meta( $current_user->id, "exp_date", $nuevaExpiracion);
+		}
+		
+		//Renueva la membresia de un usuario dado por ID
+		function aeph_renovarMembresiaConId($id_usuario){
+			
+			$expiracion=(int)get_the_author_meta( 'exp_date', $id_usuario );
+			$nuevaExpiracion = strtotime('+1 years', $expiracion);
+			
+			$this->aeph_set_member_role($id_usuario,'Miembro');			
+			update_user_meta( $id_usuario, "exp_date",$nuevaExpiracion);
+			echo '<div class="updated fade"><p>'.'ID: '.$id_usuario.'Vieja Fecha: '.$expiracion.' Nueva Fecha:'.$nuevaExpiracion.'</p></div>';
+		}
+		
 		
 		// handle plugin options
 		function get_options()
@@ -51,7 +82,7 @@ if ( !class_exists('AephPlugin') ){
 			// default values
 			$options = array
 			(
-				'emailLog' => EMAILPORDEFECTO,
+				'emailLog' => $EMAILPORDEFECTO,
 				'mensaje30' => '',
 				'mensaje15' => '',
 				'mensaje7' => '',
@@ -78,6 +109,15 @@ if ( !class_exists('AephPlugin') ){
 		function handle_options()
 		{
 			$options = $this->get_options();
+	
+			if ( isset($_POST['renovar'])){
+				//check security
+				check_admin_referer('aeph-nonce');
+				$id_del_usuario=filter_var($_POST['IdUsuario'],FILTER_SANITIZE_NUMBER_INT);
+				$this->aeph_renovarMembresiaConId($id_del_usuario);
+				echo '<div class="updated fade"><p>Membresia renovada.</p></div>';
+			}
+
 			if ( isset($_POST['submitted'])){
 				//check security
 				check_admin_referer('aeph-nonce');
@@ -206,17 +246,9 @@ if ( !class_exists('AephPlugin') ){
 						'activo' => $activo
 					)
 				);
-
-
 		}
 		
-		function aeph_renovarMembresia(){
-			global $current_user;
-			get_currentuserinfo();
-			
-			aeph_set_member_role($current_user->id,'Miembro');
-			update_user_meta( $current_user->id, "exp_date", time());
-		}
+
 
 		//Mostrará la fecha de caducidad de la membresía del usuario logeado en el sistema en su area privada
 		function aeph_mostrarCaducidad(){
@@ -248,6 +280,8 @@ if ( !class_exists('AephPlugin') ){
 				}
 			}
 		}
+		
+		
 
 	}
 }
