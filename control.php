@@ -47,6 +47,5 @@ function aeph_controlPeriodico(){
 
 		}
 	}
-
 }
 ?>
