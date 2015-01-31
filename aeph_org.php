@@ -283,14 +283,15 @@ if ( !class_exists('AephPlugin') ){
 			else{
 			
 				$diferencia=$ahora-$expiracion;
+				$diferencia=$diferencia*(-1);
 				$diferencia=$diferencia/86400;
 				if($diferencia<15){
 					return "<b>La fecha de expiración es:</b><font style='color:orange;margin:0px'> ".date("d/m/Y",$expiracion)." </font>.<br>
-					<b><font style='color:orange;margin:0px'>Le quedan ".$diferencia." de membresía</font></b><br>";
+					<b><font style='color:orange;margin:0px'>Le quedan ".$diferencia." días de membresía</font></b><br>";
 				}
 				else{
-					return "<b>La fecha de expiración es:</b><font style='margin:0px'> ".date("d/m/Y",$expiracion)." </font>.<br>
-					<b><font style='margin:0px'>Le quedan ".$diferencia." de membresía</font></b><br>";
+					return "<b>La fecha de expiración es:</b><font style='color:green;margin:0px'> ".date("d/m/Y",$expiracion)." </font>.<br>
+					<b><font style='margin:0px'>Le quedan ".$diferencia." días de membresía</font></b><br>";
 				}
 			}
 		}
